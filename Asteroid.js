@@ -1,4 +1,4 @@
-function Goal(pos, r)
+function Asteroid(pos, r)
 {
     if (pos)
     {
@@ -35,7 +35,7 @@ function Goal(pos, r)
         this.pos.add(this.vel);
     }
 
-    this.render = function()
+    this.render = function() 
     {
         push();
         fill(this.colorr, this.colorg, this.colorb);
@@ -55,7 +55,7 @@ function Goal(pos, r)
         pop();
     }
 
-    this.displaced = function()
+    this.displaced = function() // 장애물이 총으로 격추당하면 두개로 갈라지게 한다.
     {
         var newA = [];
         newA[0] = new Goal(this.pos, this.r);
@@ -63,7 +63,7 @@ function Goal(pos, r)
         return newA;
     }
 
-    this.edges = function()
+    this.edges = function() // 화면 밖으로 나가면 반대편에서 나타나게 됨.
     {
         if (this.pos.x > width + this.r)
         {

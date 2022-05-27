@@ -1,10 +1,11 @@
 function Ship() {
-    this.pos = createVector(width / 2, height / 2); // 화면의 중앙부터 시작하는 x,y 좌표 벡터.
-    this.r = 20; // 
-    this.heading = 0; // 
+    this.pos = createVector(width / 2, height - 40); // 화면의 중앙부터 시작하는 x,y 좌표 벡터.
+    this.r = 20; // 우주선의 크기
+    this.heading = 0; // 우주선의 현재 머리 위치. (rotate된 정도.)
     this.rotation = 0; // 
     this.vel = createVector(0, 0); // 
     this.isBoosting = false; // 지금 우주선이 급발진을 하고 있는가?
+    this.Score = 0;
   
     this.boosting = function(b) {
       this.isBoosting = b;
@@ -55,6 +56,20 @@ function Ship() {
       }
     }
   
+    this.hits = function(gate)
+    {
+      var d = dist(this.pos.x, this.pos.y, gate.pos.x, gate.pos.y);
+      if (d < gate.r)
+      {
+        ship.Score += 1;
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
     this.setRotation = function(a) {
       this.rotation = a;
     }
