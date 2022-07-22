@@ -1,6 +1,6 @@
-function Asteroid(pos, r)
+function Asteroid(pos, r) // 생성자.
 {
-    if (pos)
+    if (pos) // 매개변수로 넣은 pos 값이 음수가 아니라면
     {
         this.pos = pos.copy();
     }
@@ -9,21 +9,21 @@ function Asteroid(pos, r)
         this.pos = createVector(random(width), random(height));
     }
 
-    if(r)
+    if (r)
     {
         this.r = r * 0.5;
     }
     else
     {
-        this.r = random(15, 50);
+        this.r = random(25, 70);
     }
 
     this.vel = p5.Vector.random2D();
     this.total = floor(random(15, 50));
     this.offset = [];
-    this.colorr = floor(random(10,255));
-    this.colorg = floor(random(10,255));
-    this.colorb = floor(random(10,255));
+    this.colorR = floor(random(10, 255));
+    this.colorG = floor(random(10, 255));
+    this.colorB = floor(random(10, 255));
 
     for (var i = 0; i < this.total; i++)
     {
@@ -35,10 +35,10 @@ function Asteroid(pos, r)
         this.pos.add(this.vel);
     }
 
-    this.render = function() 
+    this.render = function()
     {
         push();
-        fill(this.colorr, this.colorg, this.colorb);
+        fill(this.colorR, this.colorG, this.colorB);
         stroke(255);
         translate(this.pos.x, this.pos.y);
         beginShape();
@@ -51,25 +51,26 @@ function Asteroid(pos, r)
             var y = r * sin(angle);
             vertex(x, y);
         }
+
         endShape();
         pop();
     }
 
-    this.displaced = function() // 장애물이 총으로 격추당하면 두개로 갈라지게 한다.
+    this.displaced = function() // 장애물과 함선이 충돌 시 장애물이 두개로 나뉘어 생성됨.
     {
         var newA = [];
-        newA[0] = new Goal(this.pos, this.r);
-        newA[1] = new Goal(this.pos, this.r);
+        newA[0] = new Asteroid(this.pos, this.r);
+        newA[1] = new Asteroid(this.pos, this.r);
         return newA;
     }
 
-    this.edges = function() // 화면 밖으로 나가면 반대편에서 나타나게 됨.
+    this.edges = function() // 장애물이 화면 밖으로 나가면 반대편에서 나타나게 됨
     {
         if (this.pos.x > width + this.r)
         {
             this.pos.x = -this.r;
         }
-        else if(this.pos.x < -this.r)
+        else if (this.pos.x < -this.r)
         {
             this.pos.x = width + this.r;
         }
