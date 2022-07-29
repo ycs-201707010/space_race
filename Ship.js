@@ -1,5 +1,5 @@
 function Ship() {
-    this.pos = createVector(width / 2, height - 40); // 우주선의 위치// 화면의 x축 중앙, y축의 아래부터 시작하는 x,y 좌표 벡터.
+    this.pos = createVector(width / 2, height - 40); // 우주선의 위치 // 화면의 x축 중앙, y축의 아래부터 시작하는 x,y 좌표 벡터.
     this.r = 20; // 우주선의 크기
     this.heading = 0; // 우주선의 현재 머리 위치. (rotate된 정도.)
     this.rotation = 0; // 우주선의 머리가 위치한 각도.
@@ -8,9 +8,12 @@ function Ship() {
     this.Score = 0;
     this.isImmune = true; // 지금 우주선은 무적 상태인가?
     // 처음 생성될때 무적 시간을 준다. 이유는, 게임이 시작되자마자 바로 장애물에 닿아 4점을 잃는 불상사를 미연에 방지하기 위함이다.
-    this.immuneCount = 201; // 지금 우주선이 얼마나 무적 상태에 있었는지 나타내는 변수.
-    // 201로 초기화해서 시작 무적 3초를 주도록 한다.
-  
+    this.immuneFrame = 0;
+    this.immuneCount = 2; // 지금 우주선이 얼마나 무적 상태에 있었는지 나타내는 변수.
+    // 2로 초기화해서 시작 무적 3초를 주도록 한다.
+    this.isStun = false;
+    this.stunCount = 0;
+
     this.boosting = function(b) {
       this.isBoosting = b;
     }
@@ -76,7 +79,20 @@ function Ship() {
 
     this.hits_asteroid = function(asteroid) { // 장애물과 충돌 했을 때 실행되는 메서드
       var d = dist(this.pos.x, this.pos.y, asteroid.pos.x, asteroid.pos.y);
-      if (d < this.r + asteroid.r)
+      if (d < asteroid.r)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    this.get_item = function(item)
+    {
+      var d = dist(this.pos.x, this.pos.y , item.pos.x, item.pos.y);
+      if (d < item.r)
       {
         return true;
       }
@@ -89,6 +105,7 @@ function Ship() {
     this.switchImmune = function() {
       if (this.isImmune)
       {
+        this.immuneFrame = 0;
         this.immuneCount = 0;
         
         this.isImmune = false;
