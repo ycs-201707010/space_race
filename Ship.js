@@ -1,4 +1,6 @@
-function Ship() {
+function Ship(player_Code) {
+    this.code = player_Code;
+
     this.pos = createVector(width / 2, height - 40); // 우주선의 위치 // 화면의 x축 중앙, y축의 아래부터 시작하는 x,y 좌표 벡터.
     this.r = 20; // 우주선의 크기
     this.heading = 0; // 우주선의 현재 머리 위치. (rotate된 정도.)
@@ -12,6 +14,7 @@ function Ship() {
     this.immuneCount = 2; // 지금 우주선이 얼마나 무적 상태에 있었는지 나타내는 변수.
     // 2로 초기화해서 시작 무적 3초를 주도록 한다.
     this.isStun = false;
+    this.stunFrame = 0;
     this.stunCount = 0;
 
     this.boosting = function(b) {

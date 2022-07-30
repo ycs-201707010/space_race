@@ -2,7 +2,7 @@ var ship; // 이놈이 우주선이 될거에요.
 var gate; // 이놈은 골인 지점이 될겁니다.
 var goal_Sound; // 골인 했을 때, 사운드가 들어갈거에요.
 var asteroids = []; // 장애물들이 될겁니다. 
-var hidden_Aste_Array = []; // 얘네는 특수 장애물입니다 (기존 장애물 배열에 특수 장애물을 추가하면 서버가 큰일날거같아서 배열 하나더 추가함..)
+var hidden_Ast_Array = []; // 얘네는 특수 장애물입니다 (기존 장애물 배열에 특수 장애물을 추가하면 서버가 큰일날거같아서 배열 하나더 추가함..)
 var items = [];
 var break_Sound; // 장애물과 우주선이 부딪혔을때 사운드가 출력되어야겠죠. 그 사운드를 담을겁니다.
 let a = 0.0; // 아이템 박스의 늘,줄 효과를 위한 변수 1
@@ -29,7 +29,7 @@ function setup() // 선언부
 {
   frameRate(60);
   createCanvas(displayWidth, windowHeight);
-  ship = new Ship(); // 생성자
+  ship = new Ship(1); // 생성자
   gate = new Gate(); // 생성자를 통해 골인 지점을 맹글어주었어요
 
   for (var i = 0; i < 10; i++) // 처음에 생성되는 장애물은 10개.
@@ -157,13 +157,28 @@ function draw() // 출력부
     items[i].render(s);
   }
 
-  for (var i = 0; i < items.length; i++)
+  for (var i = items.length - 1; i >= 0; i--)
   {
     if (ship.get_item(items[i]))
     {
-      
+      // if (items[i].itemCode == 0)
+      // {
+      //   hidden_Ast_Array.push(new hidden_Ast(ship.code, items[i].itemCode));
+      // }
+      // else if (item[i].itemCode == 1)
+      // {
+      //   // ship.isStun = true;
+      // }
+
+      items.splice(i, 1);
+      break;
     }
   }
+
+  // for (var i = 0; i < hidden_Ast_Array.length; i++)
+  // {
+    
+  // }
   
 
   // 플레이어가 기절 상태가 아니라면 : 방향키 입력시 움직인다
